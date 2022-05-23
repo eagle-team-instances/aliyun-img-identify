@@ -1,10 +1,14 @@
 import oss2
 import os
+from .config import loadConfig
 
-AccessKeyID = 'LTAI5tKqJUc7ejKyTDjr88kJ'
-AccessKeySecret = 'RM8NJIxK38FnPxJwzpQnJywkTI4wc5'
-bucketName = 'jinwei-test'
-endPoint = 'oss-cn-beijing.aliyuncs.com'
+aliOss = loadConfig().get('openAccessKeys').get('aliOss')
+print(aliOss)
+AccessKeyID = aliOss.get('keyID')
+AccessKeySecret = aliOss.get('keySecret')
+endPoint = aliOss.get('endPoint')
+bucketName = aliOss.get('bucketName')
+print(AccessKeyID, AccessKeySecret)
 
 
 auth = oss2.Auth(AccessKeyID, AccessKeySecret)
