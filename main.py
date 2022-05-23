@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from src import success, fail, putObject
+from src import success, fail, putObject, loadConfig
 from werkzeug.utils import secure_filename
 import os
 
@@ -15,9 +15,11 @@ uploadsDir = os.path.join(os.getcwd(), 'uploads')
 os.makedirs(uploadsDir, exist_ok=True)
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/', methods=['POST'])
 def uploadHandler():
-    return jsonify([{'a': 1, 'c': 3, 'b': 2, 'e': 5, 'd': 4}])
+    ossConnInfo = loadConfig()
+    # print(ossConnInfo.get('openAccessKeys'))
+    return jsonify(loadConfig())
 
 
 @app.route('/file/upload', methods=['POST'])
