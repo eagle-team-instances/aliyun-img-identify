@@ -11,9 +11,14 @@
 
 + unix*
 ```shell
-> set FLASK_APP=hello
+> set FLASK_APP=main
 > flask run
  * Running on http://127.0.0.1:5000/
+```
+
+如果你想开启热重启模式，请使用
+```shell
+flask run --debugger --reload
 ```
 
 + Others
