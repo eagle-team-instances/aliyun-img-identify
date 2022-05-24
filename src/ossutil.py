@@ -3,12 +3,10 @@ import os
 from .config import loadConfig
 
 aliOss = loadConfig().get('openAccessKeys').get('aliOss')
-print(aliOss)
 AccessKeyID = aliOss.get('keyID')
 AccessKeySecret = aliOss.get('keySecret')
 endPoint = aliOss.get('endPoint')
 bucketName = aliOss.get('bucketName')
-print(AccessKeyID, AccessKeySecret)
 
 
 auth = oss2.Auth(AccessKeyID, AccessKeySecret)
