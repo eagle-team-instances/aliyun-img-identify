@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from src import success, fail, putObject, loadConfig, classifyingRubbish
 from werkzeug.utils import secure_filename
 import os
@@ -13,6 +14,7 @@ IMG_EXT = ['jpg', 'jpeg', 'png']
 
 UPLOAD_FOLDER = './source'
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # 静态文件路径
