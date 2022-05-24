@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, request
-from src import success, fail, putObject, loadConfig
+from src import success, fail, putObject, loadConfig, classifyingRubbish
 from werkzeug.utils import secure_filename
 import os
+import json
+
+# 配置加载
+aliAiImg = loadConfig().get('openAccessKeys').get('aliAiImg')
+ssoUrl = aliAiImg.get('ssoOrigin')
 
 
 IMG_EXT = ['jpg', 'jpeg', 'png']
@@ -18,7 +23,6 @@ os.makedirs(uploadsDir, exist_ok=True)
 @app.route('/', methods=['POST'])
 def uploadHandler():
     ossConnInfo = loadConfig()
-    # print(ossConnInfo.get('openAccessKeys'))
     return jsonify(loadConfig())
 
 
@@ -28,6 +32,7 @@ def uploadFile():
     if not len(fds):
         return fail('上传文件为空')
     try:
+        resultUrls = []
         for file in fds.values():
             fname = file.filename
             fpath = os.path.join(uploadsDir, fname)
@@ -35,6 +40,12 @@ def uploadFile():
             file.save(fpath)
             # 上传文件至阿里云OSS
             putObject(fname, fpath)
-        return success({'success': True}, '成功')
+            fileUrl = ssoUrl + fname
+            aiResult = classifyingRubbish(fileUrl)
+            lastResp = json.loads(aiResult)
+            lastResp["imgName"] = fname
+            lastResp["imgUrl"] = fileUrl
+            resultUrls.append(lastResp)
+        return success(resultUrls, '成功')
     except:
         return fail('失败')
