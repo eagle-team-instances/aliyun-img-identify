@@ -1,8 +1,0 @@
-# 开放AK授权
-openAccessKeys:
-  aliOss:
-    keyID: 8dj39skcr940sxjcrirod
-    keySecret: 98e0djcmwleicnc9ednc
-    endPoint: oss-cn-beijing.aliyuncs.com
-    bucketName: oss-test
-
